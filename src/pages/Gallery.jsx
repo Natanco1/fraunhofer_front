@@ -33,23 +33,23 @@ function Gallery() {
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-gray-800 items-center justify-center flex-col mt-16 text-white">
-      <h1 className="text-3xl mb-6 font-bold">🎨 Gallery</h1>
+    <div className="min-h-screen bg-gray-800 text-white flex flex-col items-center mt-10">
+      <h1 className="text-3xl font-bold mb-6">🎨 Gallery</h1>
 
       {loading && (
-        <div className="mt-8">
+        <div className="mt-6">
           <SpinnerLoader size="16" color="indigo-600" />
         </div>
       )}
 
-      {error && <div className="text-red-500 mt-4 text-xl">{error}</div>}
+      {error && <div className="text-red-500 text-xl mt-4">{error}</div>}
 
       {!loading && !error && collections.length === 0 && (
         <div className="text-gray-400 text-xl mt-4">No collections found.</div>
       )}
 
       {!loading && !error && collections.length > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           {collections.map((collection) => (
             <CollectionCard key={collection.id} collection={collection} />
           ))}

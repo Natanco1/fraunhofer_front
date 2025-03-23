@@ -11,11 +11,7 @@ function Generate() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (image1 && image2) {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
+    setIsButtonDisabled(!(image1 && image2));
   }, [image1, image2]);
 
   const handleGenerateClick = async () => {
@@ -45,7 +41,6 @@ function Generate() {
       if (response.ok) {
         const data = await response.json();
         setResultImage(data.style_transferred_image);
-        setError(null);
       } else {
         const errorData = await response.json();
         setError(errorData.error);
@@ -59,8 +54,10 @@ function Generate() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gray-800 items-center justify-center text-3xl flex-col mt-16">
-      <div className="flex space-x-8 mb-8">
+    <div className="min-h-screen bg-gray-800 text-white flex flex-col items-center mt-10">
+      <h1 className="text-3xl font-bold mb-6">🖌️ Style Transfer</h1>
+
+      <div className="flex space-x-8 mb-6">
         <ImageUploader
           label="🖼️ Add Image"
           image={image1}
@@ -79,7 +76,9 @@ function Generate() {
       <div>
         <button
           onClick={handleGenerateClick}
-          className={`text-white bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-lg shadow-md text-xl ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'glow'}`}
+          className={`text-white bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-lg shadow-md text-xl ${
+            isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'glow'
+          }`}
           disabled={isButtonDisabled}
         >
           Generate
@@ -89,16 +88,19 @@ function Generate() {
       {error && <div className="text-red-500 mt-4 text-xl">{error}</div>}
 
       {loading && !resultImage && !error && (
-        <div className="mt-8">
+        <div className="mt-6">
           <SpinnerLoader size="16" color="indigo-600" />
         </div>
       )}
 
-
       {resultImage && (
         <div className="mt-8">
           <h2 className="text-white text-2xl">Generated Image:</h2>
-          <img src={`data:image/png;base64,${resultImage}`} alt="Generated Style" className="mt-4" />
+          <img
+            src={`data:image/png;base64,${resultImage}`}
+            alt="Generated Style"
+            className="mt-4"
+          />
         </div>
       )}
     </div>
