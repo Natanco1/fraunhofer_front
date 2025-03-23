@@ -6,7 +6,8 @@ function ImageUploader({ label, image, setImage, fileInputId }) {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result);
+        const base64Data = reader.result.split(',')[1];
+        setImage(base64Data);
       };
       reader.readAsDataURL(file);
     }
@@ -33,7 +34,7 @@ function ImageUploader({ label, image, setImage, fileInputId }) {
       <div className="text-xl text-gray-300 mb-4">{label}</div>
       <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-500 w-full h-full rounded-md">
         {image ? (
-          <img src={image} alt="Selected" className="object-cover w-full h-full rounded-md" />
+          <img src={`data:image/png;base64,${image}`} alt="Selected" className="object-cover w-full h-full rounded-md" />
         ) : (
           <div className="text-sm text-gray-400">Click to attach image</div>
         )}

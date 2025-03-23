@@ -21,22 +21,23 @@ function Generate() {
       setError('Please upload both content and style images.');
       return;
     }
-  
-    const formData = new FormData();
-    formData.append('content_image', image1);
-    formData.append('style_image', image2);
-  
-    console.log('FormData before sending:');
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
-  
+    
+    const requestBody = {
+      content_image: image1,
+      style_image: image2,
+    };
+
+    console.log('Request Body:', requestBody);
+
     try {
       const response = await fetch('http://localhost:8000/api/style-transfer/', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
         setResultImage(data.style_transferred_image);
@@ -50,7 +51,6 @@ function Generate() {
       console.error('Error:', error);
     }
   };
-  
 
   return (
     <div className="flex min-h-screen bg-gray-800 items-center justify-center text-3xl flex-col mt-16">
@@ -85,7 +85,7 @@ function Generate() {
       {resultImage && (
         <div className="mt-8">
           <h2 className="text-white text-2xl">Generated Image:</h2>
-          <img src={resultImage} alt="Generated Style" className="mt-4" />
+          <img src={`data:image/png;base64,${resultImage}`} alt="Generated Style" className="mt-4" />
         </div>
       )}
     </div>
