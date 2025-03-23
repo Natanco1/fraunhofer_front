@@ -39,7 +39,7 @@ function Generate() {
       <div>
         <button
           onClick={handleGenerateClick}
-          className={`text-white bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-lg shadow-md text-xl ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`text-white bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-lg shadow-md text-xl ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'glow'}`}
           disabled={isButtonDisabled}
         >
           Generate
