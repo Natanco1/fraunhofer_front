@@ -35,7 +35,7 @@ function CollectionDetail() {
           setError(null);
           setCollectionDetail(null);
           setShowModal(false);
-          navigate('/gallery');
+          navigate('/');
         } else {
           throw new Error('Failed to delete collection');
         }
