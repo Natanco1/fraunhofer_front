@@ -1,6 +1,7 @@
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import Gallery from "./pages/Gallery";
 import Generate from "./pages/Generate";
+import CollectionDetail from "./pages/CollectionDetail";  // Import the new page
 
 function App() {
   const location = useLocation();
@@ -37,6 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Gallery />} />
           <Route path="/generate" element={<Generate />} />
+          <Route path="/collection/:id" element={<CollectionDetail />} />
         </Routes>
       </div>
     </div>

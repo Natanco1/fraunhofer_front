@@ -1,20 +1,24 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 function CollectionCard({ collection, onUpdateName }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(collection.name);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const handleEditClick = () => {
+  const handleEditClick = (e) => {
+    e.stopPropagation(); // Prevent the edit button from triggering any other actions
     setIsEditing(true);
   };
 
-  const handleCancel = () => {
+  const handleCancel = (e) => {
+    e.stopPropagation(); // Prevent actions when canceling
     setNewName(collection.name);
     setIsEditing(false);
   };
 
-  const handleUpdate = async () => {
+  const handleUpdate = async (e) => {
+    e.stopPropagation(); // Prevent actions when updating
     setIsUpdating(true);
 
     try {
@@ -43,23 +47,21 @@ function CollectionCard({ collection, onUpdateName }) {
   };
 
   return (
-    <div className="p-6 bg-gray-700 shadow-lg rounded-2xl w-full text-white border border-gray-600 transform hover:scale-105 transition-transform duration-300 relative flex flex-col items-center">
-      <img
-        src={collection.imageUrl}
-        alt={collection.name}
-        className="w-32 h-32 object-cover rounded-md mb-4"
-      />
+    <div className="p-6 bg-gray-700 shadow-lg rounded-2xl w-full text-white border border-gray-600 transform hover:scale-105 transition-transform duration-300 relative flex flex-col items-center cursor-pointer">
+      <div className="flex justify-center mb-4">
+        <img
+          src={collection.imageUrl}
+          alt={collection.name}
+          className="w-32 h-32 object-cover rounded-md"
+        />
+      </div>
       {!isEditing ? (
         <>
-          <h3 className="text-2xl font-bold text-indigo-400 text-center w-full">{collection.name}</h3>
+          <h3 className="text-2xl font-bold text-indigo-400 text-center w-full">
+            {collection.name}
+          </h3>
           <p className="text-gray-400 mt-2">Created: {new Date(collection.createdAt).toLocaleString()}</p>
           <p className="text-gray-500">Updated: {new Date(collection.updatedAt).toLocaleString()}</p>
-          <div
-            className="absolute top-2 right-2 bg-blue-500 text-white p-2 rounded-full cursor-pointer transition-all hover:bg-blue-600"
-            onClick={handleEditClick}
-          >
-            <i className="fa fa-pencil"></i>
-          </div>
         </>
       ) : (
         <div className="flex flex-col items-center space-y-4 w-full">
@@ -86,10 +88,26 @@ function CollectionCard({ collection, onUpdateName }) {
           </div>
         </div>
       )}
+
+<div className="absolute top-2 right-2 flex space-x-1">
+  <div
+    className="bg-blue-500 text-white rounded-full cursor-pointer transition-all hover:bg-blue-600"
+    onClick={handleEditClick}
+    style={{ padding: '3px', fontSize: '13px', width: '30px', height: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} 
+  >
+    <i className="fa fa-pencil"></i>
+  </div>
+
+  <Link 
+    to={`/collection/${collection.id}`} 
+    className="bg-yellow-500 text-white rounded-full cursor-pointer transition-all hover:bg-yellow-600"
+    style={{ padding: '3px', fontSize: '13px', width: '30px', height: '30px', display: 'flex', justifyContent: 'center', alignItems: 'center' }} 
+  >
+    <i className="fa fa-eye"></i>
+  </Link>
+</div>
     </div>
   );
 }
-
-
 
 export default CollectionCard;
