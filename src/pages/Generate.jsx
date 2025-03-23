@@ -5,6 +5,8 @@ function Generate() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [resultImage, setResultImage] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     if (image1 && image2) {
@@ -14,9 +16,41 @@ function Generate() {
     }
   }, [image1, image2]);
 
-  const handleGenerateClick = () => {
-    console.log("Images are ready to be processed!");
+  const handleGenerateClick = async () => {
+    if (!image1 || !image2) {
+      setError('Please upload both content and style images.');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('content_image', image1);
+    formData.append('style_image', image2);
+  
+    console.log('FormData before sending:');
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+  
+    try {
+      const response = await fetch('http://localhost:8000/api/style-transfer/', {
+        method: 'POST',
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        setResultImage(data.style_transferred_image);
+        setError(null);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.error);
+      }
+    } catch (error) {
+      setError('An error occurred while generating the image.');
+      console.error('Error:', error);
+    }
   };
+  
 
   return (
     <div className="flex min-h-screen bg-gray-800 items-center justify-center text-3xl flex-col mt-16">
@@ -45,6 +79,15 @@ function Generate() {
           Generate
         </button>
       </div>
+
+      {error && <div className="text-red-500 mt-4 text-xl">{error}</div>}
+
+      {resultImage && (
+        <div className="mt-8">
+          <h2 className="text-white text-2xl">Generated Image:</h2>
+          <img src={resultImage} alt="Generated Style" className="mt-4" />
+        </div>
+      )}
     </div>
   );
 }
