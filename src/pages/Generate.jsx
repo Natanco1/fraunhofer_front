@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import ImageUploader from './ImageUploader';
 
 function Generate() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-  const handleImageChange = (e, setImage) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   useEffect(() => {
     if (image1 && image2) {
@@ -31,33 +21,19 @@ function Generate() {
   return (
     <div className="flex min-h-screen bg-gray-800 items-center justify-center text-3xl flex-col mt-16">
       <div className="flex space-x-8 mb-8">
-        <div
-          className="flex flex-col items-center justify-center w-80 h-80 bg-gray-700 rounded-lg shadow-lg p-4 cursor-pointer"
-          onClick={() => document.getElementById("fileInput1").click()}
-        >
-          <div className="text-xl text-gray-300 mb-4">🖼️ Add Image</div>
-          <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-500 w-full h-full rounded-md">
-            {image1 ? (
-              <img src={image1} alt="Selected" className="object-cover w-full h-full rounded-md" />
-            ) : (
-              <div className="text-sm text-gray-400">Click to attach image</div>
-            )}
-          </div>
-        </div>
-
-        <div
-          className="flex flex-col items-center justify-center w-80 h-80 bg-gray-700 rounded-lg shadow-lg p-4 cursor-pointer"
-          onClick={() => document.getElementById("fileInput2").click()}
-        >
-          <div className="text-xl text-gray-300 mb-4">🎨 Add Style</div>
-          <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-500 w-full h-full rounded-md">
-            {image2 ? (
-              <img src={image2} alt="Selected" className="object-cover w-full h-full rounded-md" />
-            ) : (
-              <div className="text-sm text-gray-400">Click to attach image</div>
-            )}
-          </div>
-        </div>
+        <ImageUploader
+          label="🖼️ Add Image"
+          image={image1}
+          setImage={setImage1}
+          fileInputId="fileInput1"
+        />
+        
+        <ImageUploader
+          label="🎨 Add Style"
+          image={image2}
+          setImage={setImage2}
+          fileInputId="fileInput2"
+        />
       </div>
 
       <div>
@@ -69,21 +45,6 @@ function Generate() {
           Generate
         </button>
       </div>
-
-      <input
-        type="file"
-        id="fileInput1"
-        className="hidden"
-        onChange={(e) => handleImageChange(e, setImage1)}
-        accept="image/*"
-      />
-      <input
-        type="file"
-        id="fileInput2"
-        className="hidden"
-        onChange={(e) => handleImageChange(e, setImage2)}
-        accept="image/*"
-      />
     </div>
   );
 }
