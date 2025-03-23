@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function CollectionCard({ collection, onUpdate }) {
+function CollectionCard({ collection }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(collection.name);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -34,10 +34,6 @@ function CollectionCard({ collection, onUpdate }) {
       }
 
       setIsEditing(false);
-
-      if (onUpdate) {
-        onUpdate();
-      }
     } catch (error) {
       console.error('Error updating collection:', error);
     } finally {
@@ -47,6 +43,12 @@ function CollectionCard({ collection, onUpdate }) {
 
   return (
     <div className="p-6 bg-gray-700 shadow-lg rounded-2xl w-full text-white border border-gray-600 transform hover:scale-105 transition-transform duration-300 relative flex flex-col items-center">
+      <img
+        src={collection.imageUrl}
+        alt={collection.name}
+        className="w-32 h-32 object-cover rounded-md mb-4"
+      />
+
       {!isEditing ? (
         <>
           <h3 className="text-2xl font-bold text-indigo-400 text-center w-full">{collection.name}</h3>
@@ -87,5 +89,6 @@ function CollectionCard({ collection, onUpdate }) {
     </div>
   );
 }
+
 
 export default CollectionCard;

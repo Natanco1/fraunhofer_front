@@ -16,25 +16,23 @@ function Gallery() {
   const fetchCollections = () => {
     setLoading(true);
     axios
-      .get('http://localhost:8000/api/get-all')
-      .then((response) => {
-        const data = response.data.collections.map(
-          (collection) =>
-            new Collection(
-              collection.id,
-              collection.name,
-              collection.createdAt,
-              collection.updatedAt
-            )
-        );
-        setCollections(data);
-      })
-      .catch((error) => {
-        setError(error.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    .get('http://localhost:8000/api/get-all')
+    .then((response) => {
+      const data = response.data.collections.map((collection) => ({
+        id: collection.id,
+        name: collection.name,
+        createdAt: collection.createdAt,
+        updatedAt: collection.updatedAt,
+        imageUrl: `http://localhost:8000/media/generated/${collection.id}.png`
+      }));
+      setCollections(data);
+    })
+    .catch((error) => {
+      setError(error.message);
+    })
+    .finally(() => {
+      setLoading(false);
+    });
   };
 
   const handleCollectionUpdate = () => {
