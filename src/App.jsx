@@ -1,12 +1,21 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route, Link } from "react-router-dom";
+import Gallery from "./pages/Gallery";
+import Generate from "./pages/Generate";
 
 function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-blue-500 text-white text-2xl">
-      Tailwind is working! 🎨🚀
+    <div className="min-h-screen bg-white text-black">
+      {/* Navbar */}
+      <nav className="flex justify-center space-x-6 p-4 bg-blue-500 text-white">
+        <Link to="/generate" className="text-lg font-semibold">Generate</Link>
+        <Link to="/" className="text-lg font-semibold">Home</Link>
+      </nav>
+
+      {/* Routes */}
+      <Routes>
+        <Route path="/" element={<Gallery />} />
+        <Route path="/generate" element={<Generate />} />
+      </Routes>
     </div>
   );
 }
