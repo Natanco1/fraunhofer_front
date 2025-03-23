@@ -25,11 +25,12 @@ function ImageUploader({ label, image, setImage, fileInputId }) {
     >
       {image && (
         <div
-          className="absolute top-2 right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer border-[1px] border-black shadow-lg"
-          onClick={handleRemoveImage}
-        >
-          <span className="text-xs font-bold">X</span>
-        </div>
+        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer border-2 border-white shadow-xl transition-all hover:bg-red-600 hover:scale-110"
+        onClick={handleRemoveImage}
+      >
+        <span className="text-lg font-semibold">×</span>
+      </div>
+      
       )}
       <div className="text-xl text-gray-300 mb-4">{label}</div>
       <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-500 w-full h-full rounded-md">

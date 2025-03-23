@@ -7,6 +7,7 @@ function Generate() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [resultImage, setResultImage] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (image1 && image2) {
@@ -21,13 +22,15 @@ function Generate() {
       setError('Please upload both content and style images.');
       return;
     }
-    
+
     const requestBody = {
       content_image: image1,
       style_image: image2,
     };
 
-    console.log('Request Body:', requestBody);
+    setLoading(true);
+    setError(null);
+    setResultImage(null);
 
     try {
       const response = await fetch('http://localhost:8000/api/style-transfer/', {
@@ -49,6 +52,8 @@ function Generate() {
     } catch (error) {
       setError('An error occurred while generating the image.');
       console.error('Error:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,6 +86,15 @@ function Generate() {
       </div>
 
       {error && <div className="text-red-500 mt-4 text-xl">{error}</div>}
+
+      {loading && !resultImage && !error && (
+        <div className="mt-8 flex justify-center items-center">
+          <div className="spinner animate-spin inline-block w-16 h-16 border-4 border-t-4 border-indigo-600 border-solid rounded-full" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        </div>
+      )}
+
 
       {resultImage && (
         <div className="mt-8">
