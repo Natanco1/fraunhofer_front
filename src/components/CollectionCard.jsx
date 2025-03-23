@@ -7,18 +7,18 @@ function CollectionCard({ collection, onUpdateName }) {
   const [isUpdating, setIsUpdating] = useState(false);
 
   const handleEditClick = (e) => {
-    e.stopPropagation(); // Prevent the edit button from triggering any other actions
+    e.stopPropagation();
     setIsEditing(true);
   };
 
   const handleCancel = (e) => {
-    e.stopPropagation(); // Prevent actions when canceling
+    e.stopPropagation();
     setNewName(collection.name);
     setIsEditing(false);
   };
 
   const handleUpdate = async (e) => {
-    e.stopPropagation(); // Prevent actions when updating
+    e.stopPropagation();
     setIsUpdating(true);
 
     try {

@@ -24,7 +24,7 @@ function Generate() {
     const requestBody = {
       content_image: image1,
       style_image: image2,
-      name: collectionName || null, // Send name if provided, otherwise null
+      name: collectionName || null,
     };
 
     setLoading(true);
