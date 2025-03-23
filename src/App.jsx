@@ -4,11 +4,31 @@ import Generate from "./pages/Generate";
 
 function App() {
   return (
-    <div className="min-h-screen bg-white text-black">
+    <div className="min-h-screen bg-gray-100">
       {/* Navbar */}
-      <nav className="flex justify-center space-x-6 p-4 bg-blue-500 text-white">
-        <Link to="/generate" className="text-lg font-semibold">Generate</Link>
-        <Link to="/" className="text-lg font-semibold">Home</Link>
+      <nav className="flex items-center justify-between p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+        {/* App Name on the left with right padding */}
+        <div className="flex items-center space-x-3 pr-6">
+          <span className="text-2xl font-bold">StyleTransfer</span>
+          
+          {/* Home Icon with padding */}
+          <Link to="/" className="text-xl hover:text-gray-200 px-2">
+            <i className="fa fa-home"></i>
+          </Link>
+          
+          {/* Brush Icon with padding */}
+          <Link to="/generate" className="text-xl hover:text-gray-200 px-2">
+            <i className="fa fa-paint-brush"></i>
+          </Link>
+        </div>
+
+        {/* Nav Icons - aligned to the right */}
+        <div className="flex items-center space-x-6">
+          {/* Settings Cog Icon (currently does nothing) */}
+          <Link to="#" className="text-xl hover:text-gray-200">
+            <i className="fa fa-cog"></i>
+          </Link>
+        </div>
       </nav>
 
       {/* Routes */}
