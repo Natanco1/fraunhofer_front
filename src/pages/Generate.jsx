@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function Generate() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const handleImageChange = (e, setImage) => {
     const file = e.target.files[0];
@@ -13,6 +14,18 @@ function Generate() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  useEffect(() => {
+    if (image1 && image2) {
+      setIsButtonDisabled(false);
+    } else {
+      setIsButtonDisabled(true);
+    }
+  }, [image1, image2]);
+
+  const handleGenerateClick = () => {
+    console.log("Images are ready to be processed!");
   };
 
   return (
@@ -48,7 +61,11 @@ function Generate() {
       </div>
 
       <div>
-        <button className="text-white bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-lg shadow-md text-xl opacity-50 cursor-not-allowed">
+        <button
+          onClick={handleGenerateClick}
+          className={`text-white bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-lg shadow-md text-xl ${isButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={isButtonDisabled}
+        >
           Generate
         </button>
       </div>
