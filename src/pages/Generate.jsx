@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import ImageUploader from './ImageUploader';
-import SpinnerLoader from './SpinnerLoader';
+import ImageUploader from '../components/ImageUploader';
+import SpinnerLoader from '../components/SpinnerLoader';
 
 function Generate() {
   const [image1, setImage1] = useState(null);

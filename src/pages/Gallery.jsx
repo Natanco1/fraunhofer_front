@@ -49,7 +49,6 @@ function Gallery() {
 
   return (
     <div className="flex flex-col min-h-screen items-center justify-start bg-gray-100">
-      <div className="text-3xl mb-8">🎨 Gallery Page (User's Creations)</div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {collections.map((collection) => (
           <CollectionCard key={collection.id} collection={collection} />
