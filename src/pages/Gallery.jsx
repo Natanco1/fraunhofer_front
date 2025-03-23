@@ -10,33 +10,34 @@ function Gallery() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchCollections();
+    axios
+      .get('http://localhost:8000/api/get-all')
+      .then((response) => {
+        const data = response.data.collections.map((collection) => ({
+          id: collection.id,
+          name: collection.name,
+          createdAt: collection.createdAt,
+          updatedAt: collection.updatedAt,
+          imageUrl: `http://localhost:8000/media/generated/${collection.id}.png`
+        }));
+        setCollections(data);
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
-  const fetchCollections = () => {
-    setLoading(true);
-    axios
-    .get('http://localhost:8000/api/get-all')
-    .then((response) => {
-      const data = response.data.collections.map((collection) => ({
-        id: collection.id,
-        name: collection.name,
-        createdAt: collection.createdAt,
-        updatedAt: collection.updatedAt,
-        imageUrl: `http://localhost:8000/media/generated/${collection.id}.png`
-      }));
-      setCollections(data);
-    })
-    .catch((error) => {
-      setError(error.message);
-    })
-    .finally(() => {
-      setLoading(false);
-    });
-  };
-
-  const handleCollectionUpdate = () => {
-    fetchCollections();
+  const handleUpdateCollectionName = (updatedCollection) => {
+    setCollections((prevCollections) =>
+      prevCollections.map((collection) =>
+        collection.id === updatedCollection.id
+          ? { ...collection, name: updatedCollection.name }
+          : collection
+      )
+    );
   };
 
   return (
@@ -61,7 +62,7 @@ function Gallery() {
             <CollectionCard
               key={collection.id}
               collection={collection}
-              onUpdate={handleCollectionUpdate}
+              onUpdateName={handleUpdateCollectionName}
             />
           ))}
         </div>

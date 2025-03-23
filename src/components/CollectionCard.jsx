@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function CollectionCard({ collection }) {
+function CollectionCard({ collection, onUpdateName }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(collection.name);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -34,6 +34,7 @@ function CollectionCard({ collection }) {
       }
 
       setIsEditing(false);
+      onUpdateName({ ...collection, name: newName });
     } catch (error) {
       console.error('Error updating collection:', error);
     } finally {
@@ -48,7 +49,6 @@ function CollectionCard({ collection }) {
         alt={collection.name}
         className="w-32 h-32 object-cover rounded-md mb-4"
       />
-
       {!isEditing ? (
         <>
           <h3 className="text-2xl font-bold text-indigo-400 text-center w-full">{collection.name}</h3>
@@ -89,6 +89,7 @@ function CollectionCard({ collection }) {
     </div>
   );
 }
+
 
 
 export default CollectionCard;
