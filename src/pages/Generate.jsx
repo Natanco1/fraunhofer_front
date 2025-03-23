@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ImageUploader from './ImageUploader';
+import SpinnerLoader from './SpinnerLoader';
 
 function Generate() {
   const [image1, setImage1] = useState(null);
@@ -88,10 +89,8 @@ function Generate() {
       {error && <div className="text-red-500 mt-4 text-xl">{error}</div>}
 
       {loading && !resultImage && !error && (
-        <div className="mt-8 flex justify-center items-center">
-          <div className="spinner animate-spin inline-block w-16 h-16 border-4 border-t-4 border-indigo-600 border-solid rounded-full" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
+        <div className="mt-8">
+          <SpinnerLoader size="16" color="indigo-600" />
         </div>
       )}
 
