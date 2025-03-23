@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function CollectionCard({ collection }) {
+function CollectionCard({ collection, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
   const [newName, setNewName] = useState(collection.name);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -33,12 +33,13 @@ function CollectionCard({ collection }) {
         throw new Error('Failed to update collection');
       }
 
-      // Successfully updated
       setIsEditing(false);
-      alert('Collection updated successfully');
+
+      if (onUpdate) {
+        onUpdate();
+      }
     } catch (error) {
       console.error('Error updating collection:', error);
-      alert('Error updating collection');
     } finally {
       setIsUpdating(false);
     }

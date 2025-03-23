@@ -10,6 +10,11 @@ function Gallery() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    fetchCollections();
+  }, []);
+
+  const fetchCollections = () => {
+    setLoading(true);
     axios
       .get('http://localhost:8000/api/get-all')
       .then((response) => {
@@ -30,7 +35,11 @@ function Gallery() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+  };
+
+  const handleCollectionUpdate = () => {
+    fetchCollections();
+  };
 
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col items-center mt-10">
@@ -51,7 +60,11 @@ function Gallery() {
       {!loading && !error && collections.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
           {collections.map((collection) => (
-            <CollectionCard key={collection.id} collection={collection} />
+            <CollectionCard
+              key={collection.id}
+              collection={collection}
+              onUpdate={handleCollectionUpdate}
+            />
           ))}
         </div>
       )}
