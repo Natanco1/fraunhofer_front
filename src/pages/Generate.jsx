@@ -5,6 +5,7 @@ import SpinnerLoader from '../components/SpinnerLoader';
 function Generate() {
   const [image1, setImage1] = useState(null);
   const [image2, setImage2] = useState(null);
+  const [collectionName, setCollectionName] = useState('');
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [resultImage, setResultImage] = useState(null);
   const [error, setError] = useState(null);
@@ -23,6 +24,7 @@ function Generate() {
     const requestBody = {
       content_image: image1,
       style_image: image2,
+      name: collectionName || null, // Send name if provided, otherwise null
     };
 
     setLoading(true);
@@ -73,17 +75,23 @@ function Generate() {
         />
       </div>
 
-      <div>
-        <button
-          onClick={handleGenerateClick}
-          className={`text-white bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-lg shadow-md text-xl ${
-            isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'glow'
-          }`}
-          disabled={isButtonDisabled}
-        >
-          Generate
-        </button>
-      </div>
+      <input
+        type="text"
+        placeholder="Collection Name"
+        value={collectionName}
+        onChange={(e) => setCollectionName(e.target.value)}
+        className="mb-4 px-4 py-2 rounded-md bg-gray-700 text-white border border-gray-600 w-80 text-center"
+      />
+
+      <button
+        onClick={handleGenerateClick}
+        className={`text-white bg-gradient-to-r from-indigo-600 to-purple-600 px-6 py-3 rounded-lg shadow-md text-xl ${
+          isButtonDisabled ? 'opacity-50 cursor-not-allowed' : 'glow'
+        }`}
+        disabled={isButtonDisabled}
+      >
+        Generate
+      </button>
 
       {error && <div className="text-red-500 mt-4 text-xl">{error}</div>}
 
