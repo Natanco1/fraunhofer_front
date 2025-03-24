@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function ImageUploader({ label, image, setImage, fileInputId }) {
+  const [error, setError] = useState(null);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      const validFormats = ['image/png', 'image/jpeg'];
+      if (!validFormats.includes(file.type)) {
+        setError('Only .png and .jpeg files are allowed');
+        return;
+      }
+      setError(null);
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64Data = reader.result.split(',')[1];
@@ -16,6 +24,7 @@ function ImageUploader({ label, image, setImage, fileInputId }) {
   const handleRemoveImage = (e) => {
     e.stopPropagation();
     setImage(null);
+    setError(null);
   };
 
   return (
@@ -25,12 +34,11 @@ function ImageUploader({ label, image, setImage, fileInputId }) {
     >
       {image && (
         <div
-        className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer border-2 border-white shadow-xl transition-all hover:bg-red-600 hover:scale-110"
-        onClick={handleRemoveImage}
-      >
-        <span className="text-lg font-semibold">×</span>
-      </div>
-      
+          className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-8 h-8 flex items-center justify-center cursor-pointer border-2 border-white shadow-xl transition-all hover:bg-red-600 hover:scale-110"
+          onClick={handleRemoveImage}
+        >
+          <span className="text-lg font-semibold">×</span>
+        </div>
       )}
       <div className="text-xl text-gray-300 mb-4">{label}</div>
       <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-500 w-full h-full rounded-md">
@@ -45,8 +53,9 @@ function ImageUploader({ label, image, setImage, fileInputId }) {
         id={fileInputId}
         className="hidden"
         onChange={handleImageChange}
-        accept="image/*"
+        accept="image/png, image/jpeg"
       />
+      {error && <div className="text-red-500 mt-2">{error}</div>}
     </div>
   );
 }
