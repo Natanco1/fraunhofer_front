@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 function CollectionDetail() {
@@ -8,7 +8,6 @@ function CollectionDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
@@ -49,17 +48,6 @@ function CollectionDetail() {
       });
   };
 
-  const handleImageClick = (imageType) => {
-    const imageUrl = `http://localhost:8000/media/${imageType}/${id}.png`;
-    setSelectedImage(imageUrl);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-    setSelectedImage(null);
-  };
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -92,55 +80,62 @@ function CollectionDetail() {
         </button>
       </div>
 
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-900 p-8 rounded-lg w-96">
+            <h2 className="text-xl font-semibold text-white mb-4">Are you sure you want to delete this collection?</h2>
+            <div className="flex justify-between">
+              <button
+                className="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700"
+                onClick={() => setShowModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700"
+                onClick={handleDelete}
+                disabled={deleting}
+              >
+                {deleting ? 'Deleting...' : 'Delete'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="bg-gray-900 p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Images</h2>
+        <h2 className="text-2xl font-semibold mb-4">Images</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="text-center" onClick={() => handleImageClick('content')}>
-            <h3 className="font-semibold mb-2">Content Image</h3>
-            <img
-              src={`http://localhost:8000/media/content/${id}.png`}
-              alt="Content"
-              className="w-full h-64 object-contain rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105 cursor-pointer"
-            />
-          </div>
-          <div className="text-center" onClick={() => handleImageClick('style')}>
-            <h3 className="font-semibold mb-2">Style Image</h3>
-            <img
-              src={`http://localhost:8000/media/style/${id}.png`}
-              alt="Style"
-              className="w-full h-64 object-contain rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105 cursor-pointer"
-            />
+        <div className="space-y-6">
+          <div className="grid grid-cols-2 gap-4 items-center">
+            <div className="text-center">
+              <h3 className="font-semibold mb-2">Content Image</h3>
+              <img
+                src={`http://localhost:8000/media/content/${id}.png`}
+                alt="Content"
+                className="w-full h-64 object-contain rounded-lg shadow-md"
+              />
+            </div>
+            <div className="text-center">
+              <h3 className="font-semibold mb-2">Style Image</h3>
+              <img
+                src={`http://localhost:8000/media/style/${id}.png`}
+                alt="Style"
+                className="w-full h-64 object-contain rounded-lg shadow-md"
+              />
+            </div>
           </div>
 
-          <div className="col-span-2 text-center" onClick={() => handleImageClick('generated')}>
+          <div className="text-center">
             <h3 className="font-semibold mb-2">Generated Image</h3>
             <img
               src={`http://localhost:8000/media/generated/${id}.png`}
               alt="Generated"
-              className="w-full h-64 object-contain rounded-lg shadow-lg transition-transform duration-300 transform hover:scale-105 cursor-pointer"
+              className="w-full h-64 object-contain rounded-lg shadow-md"
             />
           </div>
         </div>
       </div>
-
-      {showModal && selectedImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-          <div className="relative bg-gray-900 p-8 rounded-lg w-auto max-w-3xl">
-            <img
-              src={selectedImage}
-              alt="Full Screen"
-              className="w-full h-auto object-contain rounded-lg"
-            />
-            <button
-              className="absolute top-2 right-2 text-white text-2xl"
-              onClick={handleCloseModal}
-            >
-              &times;
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
