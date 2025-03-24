@@ -1,7 +1,7 @@
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import Gallery from "./pages/Gallery";
 import Generate from "./pages/Generate";
-import CollectionDetail from "./pages/CollectionDetail";  // Import the new page
+import CollectionDetail from "./pages/CollectionDetail";
 
 function App() {
   const location = useLocation();
