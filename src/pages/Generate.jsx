@@ -12,8 +12,8 @@ function Generate() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setIsButtonDisabled(!(image1 && image2));
-  }, [image1, image2]);
+    setIsButtonDisabled(!(image1 && image2) || loading);
+  }, [image1, image2, loading]);
 
   const handleGenerateClick = async () => {
     if (!image1 || !image2) {
