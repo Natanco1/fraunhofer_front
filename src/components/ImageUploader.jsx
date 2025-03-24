@@ -29,7 +29,7 @@ function ImageUploader({ label, image, setImage, fileInputId }) {
 
   return (
     <div
-      className="flex flex-col items-center justify-center w-80 h-80 bg-gray-700 rounded-lg shadow-lg p-4 cursor-pointer relative"
+      className="flex flex-col items-center justify-center bg-gray-700 rounded-lg shadow-lg p-4 cursor-pointer relative w-80 min-h-80 max-w-full"
       onClick={() => document.getElementById(fileInputId).click()}
     >
       {image && (
@@ -41,9 +41,9 @@ function ImageUploader({ label, image, setImage, fileInputId }) {
         </div>
       )}
       <div className="text-xl text-gray-300 mb-4">{label}</div>
-      <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-500 w-full h-full rounded-md">
+      <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-500 w-full rounded-md relative min-h-80">
         {image ? (
-          <img src={`data:image/png;base64,${image}`} alt="Selected" className="object-cover w-full h-full rounded-md" />
+          <img src={`data:image/png;base64,${image}`} alt="Selected" className="object-contain max-w-full max-h-[500px] rounded-md" />
         ) : (
           <div className="text-sm text-gray-400">Click to attach image</div>
         )}
