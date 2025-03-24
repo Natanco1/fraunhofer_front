@@ -2,6 +2,7 @@ import { Routes, Route, Link, useLocation } from "react-router-dom";
 import Gallery from "./pages/Gallery";
 import Generate from "./pages/Generate";
 import CollectionDetail from "./pages/CollectionDetail";
+import Options from "./pages/Options";
 
 function App() {
   const location = useLocation();
@@ -28,7 +29,7 @@ function App() {
         </div>
 
         <div className="flex items-center space-x-6">
-          <Link to="#" className={`text-xl ${getLinkClass('/settings')}`}>
+          <Link to="/settings" className={`text-xl ${getLinkClass('/settings')}`}>
             <i className="fa fa-cog"></i>
           </Link>
         </div>
@@ -39,6 +40,7 @@ function App() {
           <Route path="/" element={<Gallery />} />
           <Route path="/generate" element={<Generate />} />
           <Route path="/collection/:id" element={<CollectionDetail />} />
+          <Route path="/settings" element={<Options />} />
         </Routes>
       </div>
     </div>
